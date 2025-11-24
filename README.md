@@ -14,8 +14,9 @@ Dataseti yükleniyor. Gereksiz satırlar veriden temizleniyor. Eksik değerler �
 le_y.classes_  ile hangi sayının hangi sınıfa karşılık geldiğini gösteriyoruz.
 <br>
 <img width="500" height="277" alt="image" src="https://github.com/user-attachments/assets/74f5029b-dc37-4508-ba91-f81e5ae45643" />
-<br>
+# Build model
 
+<br>
 <img width="636" height="317" alt="image" src="https://github.com/user-attachments/assets/dead0390-7cfa-46ea-adef-979591209e27" />
 <br>
 
