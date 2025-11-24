@@ -1,8 +1,13 @@
 # Makine Öğrenmesine Giriş Dersi Ödevi
 Veri seti lineer olarak çok iyi ayrıldığı için lineer veya basit sınır çizen modeller yüksek accuracy değeri verdi. Ama logistic regressionu hem doğruluk ve basitlik hem de yorumlanabilirlik açısından daha uygun olduğu için kullandım. 
 Logistic Regression modeli binary sınıflandırma problemleri için tasarlanmış bir modeldir. Yani hedef değişkenin iki sınıftan oluşmasını bekliyoruz. Bizim veri setimizde buna oldukça uygundur. Bu model ile satranç maçında kazanan tarafın kim olduğunu tahmin etmeye çalışıyoruz. Yani hedef değişkenimiz iki sınıfa ayrılıyor: white ve black.
-
-Dataseti yükleniyor. Gereksiz satırlar veriden temizleniyor. Eksik değerler çıkarılıyor. Kullanılan veriseti çok büyük olduğu için veri sayısını kendimiz belirliyoruz.
+Bu proje, Kaggle üzerinde bulunan satranç maçları veri setini (Chess Dataset) kullanarak bir Logistic Regression modeli ile maçın kazananını tahmin etmeyi amaçlamaktadır. 
+# Kullanılan Teknolojiler
+-Python
+-NumPy
+-Pandas
+-Scikit-Learn
+-Matplotlib
 <br>
 <img width="560" height="350" alt="image" src="https://github.com/user-attachments/assets/decb5288-3026-419d-aa05-402a0830d5dc" />
 <br>
@@ -12,6 +17,8 @@ Dataseti yükleniyor. Gereksiz satırlar veriden temizleniyor. Eksik değerler �
 <br>
 # Data pre-processing
 le_y.classes_  ile hangi sayının hangi sınıfa karşılık geldiğini gösteriyoruz.
+Veri seti oldukça büyük olduğundan örnekleme yapılmış ve veri ön işleme adımları ile model için uygun bir hale getirilmiştir.
+Dataseti yükleniyor. Gereksiz satırlar veriden temizleniyor. Eksik değerler çıkarılıyor. Kullanılan veriseti çok büyük olduğu için veri sayısını kendimiz belirliyoruz.
 <br>
 <img width="500" height="277" alt="image" src="https://github.com/user-attachments/assets/74f5029b-dc37-4508-ba91-f81e5ae45643" />
 # Build model
