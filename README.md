@@ -1,13 +1,16 @@
 # Makine Öğrenmesine Giriş Dersi Ödevi
-Veri seti lineer olarak çok iyi ayrıldığı lineer veya basit sınır çizen modeller yüksek accuracy değeri verdi. Ama logistic regressionu hem doğruluk ve basitlik hem de yorumlanabilirlik açısından daha uygun olduğu için kullandım. 
+Veri seti lineer olarak çok iyi ayrıldığı için lineer veya basit sınır çizen modeller yüksek accuracy değeri verdi. Ama logistic regressionu hem doğruluk ve basitlik hem de yorumlanabilirlik açısından daha uygun olduğu için kullandım. 
 Logistic Regression modeli binary sınıflandırma problemleri için tasarlanmış bir modeldir. Yani hedef değişkenin iki sınıftan oluşmasını bekliyoruz. Bizim veri setimizde buna oldukça uygundur. Bu model ile satranç maçında kazanan tarafın kim olduğunu tahmin etmeye çalışıyoruz. Yani hedef değişkenimiz iki sınıfa ayrılıyor: white ve black.
 
+Dataseti yükleniyor.. Gereksiz satırlar veriden temizleniyor. Eksik değerler çıkarılıyor. Kullanılan veriseti çok büyük olduğu için veri sayısını kendimiz belirliyoruz.
 <img width="560" height="350" alt="image" src="https://github.com/user-attachments/assets/decb5288-3026-419d-aa05-402a0830d5dc" />
 <br>
 <img width="796" height="239" alt="image" src="https://github.com/user-attachments/assets/83a61bce-8677-4afb-8676-438acc19f12c" />
 <br>
 <img width="500" height="186" alt="image" src="https://github.com/user-attachments/assets/d5033e2d-a726-4d98-95ec-2ff94879c4bb" />
 <br>
+# Data pre-processing
+le_y.classes_  ile hangi sayının hangi sınıfa karşılık geldiğini gösteriyoruz.
 <img width="500" height="277" alt="image" src="https://github.com/user-attachments/assets/74f5029b-dc37-4508-ba91-f81e5ae45643" />
 <br>
 
