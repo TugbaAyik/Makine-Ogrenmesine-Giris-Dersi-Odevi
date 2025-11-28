@@ -1,38 +1,163 @@
-# Makine Öğrenmesine Giriş Dersi Ödevi
-Veri seti lineer olarak çok iyi ayrıldığı için lineer veya basit sınır çizen modeller yüksek accuracy değeri verdi. Ama logistic regressionu hem doğruluk ve basitlik hem de yorumlanabilirlik açısından daha uygun olduğu için kullandım. 
-Logistic Regression modeli binary sınıflandırma problemleri için tasarlanmış bir modeldir. Yani hedef değişkenin iki sınıftan oluşmasını bekliyoruz. Bizim veri setimizde buna oldukça uygundur. Bu model ile satranç maçında kazanan tarafın kim olduğunu tahmin etmeye çalışıyoruz. Yani hedef değişkenimiz iki sınıfa ayrılıyor: white ve black.
-Bu proje, Kaggle üzerinde bulunan satranç maçları veri setini (Chess Dataset) kullanarak bir Logistic Regression modeli ile maçın kazananını tahmin etmeyi amaçlamaktadır. 
-# Kullanılan Teknolojiler
--Python
--NumPy
--Pandas
--Scikit-Learn
--Matplotlib
-<br>
-<img width="560" height="350" alt="image" src="https://github.com/user-attachments/assets/decb5288-3026-419d-aa05-402a0830d5dc" />
-<br>
-<img width="796" height="239" alt="image" src="https://github.com/user-attachments/assets/83a61bce-8677-4afb-8676-438acc19f12c" />
-<br>
-<img width="500" height="186" alt="image" src="https://github.com/user-attachments/assets/d5033e2d-a726-4d98-95ec-2ff94879c4bb" />
-<br>
-# Data pre-processing
-le_y.classes_  ile hangi sayının hangi sınıfa karşılık geldiğini gösteriyoruz.
-Veri seti oldukça büyük olduğundan örnekleme yapılmış ve veri ön işleme adımları ile model için uygun bir hale getirilmiştir.
-Dataseti yükleniyor. Gereksiz satırlar veriden temizleniyor. Eksik değerler çıkarılıyor. Kullanılan veriseti çok büyük olduğu için veri sayısını kendimiz belirliyoruz.
-<br>
-<img width="500" height="277" alt="image" src="https://github.com/user-attachments/assets/74f5029b-dc37-4508-ba91-f81e5ae45643" />
-# Build model
+#  Chess Match Outcome Prediction — Logistic Regression
 
-<br>
-<img width="636" height="317" alt="image" src="https://github.com/user-attachments/assets/dead0390-7cfa-46ea-adef-979591209e27" />
-<br>
+Bu proje, bir satranç veri seti kullanılarak oyuncu rating’leri, oyun süresi (time control) ve açılış hamlesi gibi özelliklerden **maç kazananını tahmin etmek** amacıyla Logistic Regression modeli kurar. Projede veri temizleme, görselleştirme, feature engineering, model eğitimi ve değerlendirme adımları bulunmaktadır.
 
-<img width="364" height="245" alt="image" src="https://github.com/user-attachments/assets/4029f981-1fde-4e38-be2e-cb4d91af9f7f" />
-<br>
+##  Proje Amacı
 
-<img width="422" height="309" alt="image" src="https://github.com/user-attachments/assets/93714411-adcf-4315-9291-f1e57959bd5e" />
-<br>
+Bu çalışmanın asıl amacı, satranç oyunlarında **kazanan tarafı tahmin etmek** için Logistic Regression modelinin uygulanmasıdır.
+Model;
 
-<img width="400" height="400" alt="Ekran görüntüsü 2025-11-24 152942" src="https://github.com/user-attachments/assets/23468524-e2fb-472d-a109-f2c4e5c2d7ea" />
-<br>
+* **white_rating**
+* **black_rating**
+* **time_control**
+* **opening (ilk hamle)**
+  gibi özelliklerden yola çıkarak “winner” değerini tahmin eder.
+
+## Kullanılan Kütüphaneler
+
+Projede kullanılan temel Python kütüphaneleri:
+
+```python
+pandas, numpy, matplotlib, seaborn
+scikit-learn (LabelEncoder, LogisticRegression, train_test_split)
+```
+
+## Veri Seti Açıklaması
+
+Veri Kaggle üzerinde yayınlanan bir satranç oyunları veri setidir.
+
+Projede kullanılan önemli sütunlar:
+
+* **white_rating**: Beyaz oyuncunun ratingi
+* **black_rating**: Siyah oyuncunun ratingi
+* **winner**: Kazanan taraf (“white”, “black”, “draw”)
+* **pgn**: Oyunun hamlelerini içeren PGN formatı
+* **time_control**: Oyun süresi
+
+##  Veri Ön İşleme
+
+1. **Başlamamış oyunların kaldırılması**
+
+```python
+df = df[df['status'] != 'noStart']
+```
+
+2. **Eksik değerlerin silinmesi**
+
+```python
+df = df.dropna(subset=['white_rating', 'black_rating', 'winner', 'pgn', 'time_control'])
+```
+
+3. **25000 satırlık örnek seçimi**
+
+```python
+df = df.sample(n=25000, random_state=42)
+```
+
+## Açılış Hamlesi (Opening) Çıkarımı
+
+PGN formatındaki oyunun *ilk hamlesi* modellenmiştir.
+
+```python
+def simplify_opening(pgn):
+    moves = pgn.strip().split()
+    return moves[0] if len(moves) > 0 else "Unknown"
+
+df["Opening"] = df["pgn"].apply(simplify_opening)
+```
+
+Bu işlem daha sonra Label Encoding ile sayısal hale getirilir.
+
+## Veri Görselleştirme
+
+Projede yapılan başlıca grafikler:
+
+### Kazanan Dağılımı
+
+* Hangi tarafın daha çok kazandığını gösterir.
+
+### Rating Dağılımı
+
+* Beyaz ve siyah oyuncu rating histogramları.
+
+### En Popüler 10 Açılış
+
+* İlk hamleye göre sıralanmış açılış popülerlik grafiği.
+
+## Model Eğitimi
+
+Model için kullanılan özellikler:
+
+```python
+features = ["white_rating", "black_rating", "time_control", "Opening"]
+target = "winner"
+```
+
+Kategorik değişkenler LabelEncoder ile sayısallaştırılır:
+
+```python
+le_opening.fit_transform(...)
+le_time.fit_transform(...)
+```
+
+Model eğitimi:
+
+```python
+model = LogisticRegression(max_iter=5000)
+model.fit(X_train, y_train)
+```
+
+## Model Değerlendirme
+
+Modelin başarı ölçütleri:
+
+* **Accuracy Score**
+* **Classification Report**
+* **Confusion Matrix**
+
+Örnek:
+
+```python
+print(classification_report(y_test, y_pred, target_names=le_y.classes_))
+```
+
+## ROC ve Çok Sınıflı F1 Analizi
+
+Veri seti **3 sınıf** içerdiğinden klasik ROC eğrisi yalnızca binary veri için çalışır.
+
+Kod:
+
+```python
+if len(le_y.classes_) == 2:
+    ...
+else:
+    çok sınıflı F1-score karşılaştırma grağiği
+```
+
+Bu nedenle projede 3 sınıf için:
+
+F1-score
+Sınıf bazlı başarı dağılımı
+
+gösterilmiştir.
+
+## Özellik Önem Dereceleri
+
+Logistic Regression katsayılarının mutlak değerleri alınarak özellik önem sıralaması çıkarılır:
+
+```python
+feature_importance = pd.DataFrame({
+    'Feature': features,
+    'Importance': np.abs(model.coef_[0])
+})
+```
+
+Bu grafik modelin hangi değişkenlere daha çok ağırlık verdiğini gösterir.
+
+
+## Sonuç
+
+Bu proje, satranç oyuncularının ratingleri ve oyun açılış hareketi gibi bilgiler kullanılarak maç sonucunu tahmin eden geniş kapsamlı bir Logistic Regression uygulamasıdır. Veri temizleme, etiketleme, model eğitimi ve performans görselleştirmelerinin tamamı ayrıntılı bir şekilde yapılmıştır.
+
+
 
