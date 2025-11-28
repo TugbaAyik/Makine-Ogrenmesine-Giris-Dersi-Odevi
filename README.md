@@ -101,6 +101,7 @@ le_time.fit_transform(...)
 ```
 
 Model eğitimi:
+<br>
 Modeli eğitmek için veri setimizi %80 eğitim ve %20 test için olmak üzere parçalıyoruz.
 
 ```python
